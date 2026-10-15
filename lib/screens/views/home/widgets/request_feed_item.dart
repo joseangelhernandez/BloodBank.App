@@ -168,7 +168,7 @@ class CustomRequestFeedItem extends StatelessWidget {
                           horizontalSpace(twentyPixelWidth(context) * .4),
                           Expanded(
                             child: Text(
-                              request.location ?? '-',
+                              request.location,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(

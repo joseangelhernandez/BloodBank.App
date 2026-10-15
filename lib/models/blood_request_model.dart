@@ -1,14 +1,14 @@
 // Una solicitud de sangre (BloodRequestDto).
 class BloodRequestModel {
-  final String? id; // null cuando todavia no se ha creado en el servidor
+  final String? id;
   final String patientName;
   final String bloodGroup;
-  final int bags; // de 1 a 10
+  final int bags;
   final String contactNumber;
   final String emergencyContact;
   final String cause;
   final String? gender;
-  final String? location; // opcional: el formulario no tiene este campo
+  final String location;
   final DateTime neededBefore;
   final String? notes;
   final DateTime? createdAt;
@@ -22,7 +22,7 @@ class BloodRequestModel {
     required this.emergencyContact,
     required this.cause,
     this.gender,
-    this.location,
+    required this.location,
     required this.neededBefore,
     this.notes,
     this.createdAt,
@@ -38,15 +38,15 @@ class BloodRequestModel {
       emergencyContact: json['emergencyContact'],
       cause: json['cause'],
       gender: json['gender'],
-      location: json['location'],
+      location: json['location'] ?? '',
       neededBefore: DateTime.parse(json['neededBefore']),
       notes: json['notes'],
-      // El servidor manda la fecha en UTC (termina en "Z"); la pasamos a hora local.
+      // El servidor manda la fecha en UTC (termina en Z) la pasamos a hora local
       createdAt: DateTime.parse(json['createdAt']).toLocal(),
     );
   }
 
-  // Cuerpo que se envia al crear (POST /api/blood-requests).
+  // Cuerpo que se envia al crear (POST /api/blood-requests)
   Map<String, dynamic> toJson() {
     return {
       'patientName': patientName,
@@ -63,7 +63,7 @@ class BloodRequestModel {
   }
 }
 
-// Convierte una fecha a texto "yyyy-MM-dd".
+// Convierte una fecha a texto yyyy-MM-dd
 String _soloFecha(DateTime fecha) {
   final mes = fecha.month.toString().padLeft(2, '0');
   final dia = fecha.day.toString().padLeft(2, '0');

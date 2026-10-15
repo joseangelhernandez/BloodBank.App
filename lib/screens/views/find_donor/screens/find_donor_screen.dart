@@ -33,6 +33,7 @@ class _FindDonorScreenState extends State<FindDonorScreen> {
   final _emergencyController = TextEditingController();
   final _patientNameController = TextEditingController();
   final _causeController = TextEditingController();
+  final _locationController = TextEditingController();
   final _othersController = TextEditingController();
 
   // Valores iniciales iguales a lo que las cajas muestran seleccionado.
@@ -41,12 +42,20 @@ class _FindDonorScreenState extends State<FindDonorScreen> {
   DateTime? _neededBefore;
 
   @override
+  void initState() {
+    super.initState();
+    // Prellenamos con la ubicacion del perfil; el usuario la puede cambiar.
+    _locationController.text = context.read<ProfileProvider>().profile?.location ?? "";
+  }
+
+  @override
   void dispose() {
     _bagsController.dispose();
     _contactController.dispose();
     _emergencyController.dispose();
     _patientNameController.dispose();
     _causeController.dispose();
+    _locationController.dispose();
     _othersController.dispose();
     super.dispose();
   }
@@ -67,13 +76,12 @@ class _FindDonorScreenState extends State<FindDonorScreen> {
         _emergencyController.text.trim().isEmpty ||
         _patientNameController.text.trim().isEmpty ||
         _causeController.text.trim().isEmpty ||
+        _locationController.text.trim().isEmpty ||
         _neededBefore == null) {
       _showError("Please fill all required fields");
       return;
     }
 
-    // El formulario no tiene ubicacion: usamos la del perfil si existe.
-    final location = context.read<ProfileProvider>().profile?.location;
     final others = _othersController.text.trim();
 
     final request = BloodRequestModel(
@@ -84,7 +92,7 @@ class _FindDonorScreenState extends State<FindDonorScreen> {
       emergencyContact: _emergencyController.text.trim(),
       cause: _causeController.text.trim(),
       gender: _gender,
-      location: location,
+      location: _locationController.text.trim(),
       neededBefore: _neededBefore!,
       notes: others.isEmpty ? null : others,
     );
@@ -223,6 +231,18 @@ class _FindDonorScreenState extends State<FindDonorScreen> {
                   prefixFalse: false,
                   prefixxIcon: Icons.person,
                   controller: _causeController),
+
+              //Location
+              verticalSpace(twentyPixelHeight(context)),
+              const CustomFormText(
+                textt: "Location",
+                isRequired: true,
+              ),
+              verticalSpace(twentyPixelHeight(context) * .5),
+              CustomFormTextfield(
+                  hintTextt: "Santo Domingo",
+                  prefixxIcon: Icons.location_on,
+                  controller: _locationController),
 
               //Gender
               verticalSpace(twentyPixelHeight(context)),

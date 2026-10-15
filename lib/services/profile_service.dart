@@ -15,7 +15,7 @@ class ProfileService {
     String? phone,
     String? gender,
     String? bloodGroup,
-    String? location,
+    required String location,
     String? photoUrl,
   }) async {
     final data = await _api.put('/api/profile', {

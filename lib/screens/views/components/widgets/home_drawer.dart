@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../providers/auth_provider.dart';
 import '../../../../providers/blood_request_provider.dart';
+import '../../../../providers/donor_provider.dart';
 import '../../../../providers/profile_provider.dart';
 import '../../auth/login_screen.dart';
 
@@ -134,6 +135,7 @@ class HomeDrawer extends StatelessWidget {
     // Limpiamos los datos del usuario anterior en los otros providers.
     context.read<ProfileProvider>().clear();
     context.read<BloodRequestProvider>().clear();
+    context.read<DonorProvider>().clear();
     await context.read<AuthProvider>().logout();
     navigator.pushAndRemoveUntil(
       MaterialPageRoute(builder: (context) => const LoginScreen()),

@@ -42,10 +42,8 @@ class ApiClient {
     try {
       response = await http.get(_uri(path), headers: await _headers());
     } catch (e) {
-      debugPrint('[API] GET ${_uri(path)} -> ERROR: $e');
       throw ApiException('Connection error. Check internet');
     }
-    debugPrint('[API] GET ${_uri(path)} -> ${response.statusCode} ${response.body}');
     return _check(path, response);
   }
 
@@ -54,10 +52,8 @@ class ApiClient {
     try {
       response = await http.post(_uri(path), headers: await _headers(), body: jsonEncode(body));
     } catch (e) {
-      debugPrint('[API] POST ${_uri(path)} -> ERROR: $e');
       throw ApiException('Connection error. Check internet');
     }
-    debugPrint('[API] POST ${_uri(path)} -> ${response.statusCode} ${response.body}');
     return _check(path, response);
   }
 
@@ -66,10 +62,8 @@ class ApiClient {
     try {
       response = await http.put(_uri(path), headers: await _headers(), body: jsonEncode(body));
     } catch (e) {
-      debugPrint('[API] PUT ${_uri(path)} -> ERROR: $e');
       throw ApiException('Connection error. Check internet');
     }
-    debugPrint('[API] PUT ${_uri(path)} -> ${response.statusCode} ${response.body}');
     return _check(path, response);
   }
 
@@ -104,7 +98,9 @@ class ApiClient {
       }
       if (data['detail'] != null) return data['detail'];
       if (data['title'] != null) return data['title'];
-    } catch (_) {}
+    } catch (e) {
+      throw ApiException(e.toString());
+    }
     return 'Something went wrong';
   }
 }

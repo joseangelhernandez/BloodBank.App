@@ -22,6 +22,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
+  bool _showPassword = false;
+  bool _showConfirmPassword = false;
 
   //crear una variable para mostrar un spinning
   bool _isLoading = false;
@@ -148,11 +150,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       TextFormField(
                         controller: _passwordController,
                         validator: passwordValidator.call,
-                        obscureText: true,
+                        obscureText: _showPassword,
                         decoration: InputDecoration(
                           labelText: "Enter your password",
                           prefixIcon: Icon(Icons.lock),
-                          //suffixIcon: Icon(Icons.remove_red_eye),
+                          suffixIcon: TextButton(
+                              onPressed: (){
+                                setState(() {
+                                  _showPassword = !_showPassword;
+                                });
+                              },
+                              child: Icon(_showPassword
+                                  ? Icons.remove_red_eye
+                                  : Icons.visibility_off)),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -170,13 +180,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         controller: _confirmPasswordController,
                         // Ademas de las reglas normales, debe ser igual a la primera contrasena.
                         validator: (value) => confirmPasswordValidator(value, _passwordController.text),
-                        obscureText: true,
+                        obscureText: _showConfirmPassword,
                         decoration: InputDecoration(
                           labelText: "Confirm your password",
                           prefixIcon: Icon(Icons.lock),
-                          //suffixIcon: Icon(Icons.remove_red_eye),
+                          suffixIcon: TextButton(
+                              onPressed: (){
+                                setState(() {
+                                  _showConfirmPassword = !_showConfirmPassword;
+                                });
+                              },
+                              child: Icon(_showConfirmPassword
+                                  ? Icons.remove_red_eye
+                                  : Icons.visibility_off)),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(12)
                           ),
                           focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
@@ -185,16 +203,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               )
                           ),
 
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text('Show Password'),
-                            IconButton(onPressed: (){}, icon: Icon(Icons.remove_red_eye)),
-                          ],
                         ),
                       ),
 

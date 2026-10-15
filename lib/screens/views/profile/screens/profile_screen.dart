@@ -72,11 +72,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
       _showMessage("Name is required", Colors.red);
       return;
     }
+    final location = _locationController.text.trim();
+    if (location.isEmpty) {
+      _showMessage("Location is required", Colors.red);
+      return;
+    }
 
     final provider = context.read<ProfileProvider>();
     final ok = await provider.updateProfile(
       name: name,
-      location: _emptyToNull(_locationController.text),
+      location: location,
       phone: _emptyToNull(_phoneController.text),
       gender: _gender == null
           ? null
@@ -198,7 +203,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         controller: _nameController,
       ),
       gap,
-      const _FieldLabel("Location"),
+      CustomAuthText(textt: "Location"),
       CustomFormTextfield(
         hintTextt: "Location",
         prefixxIcon: Icons.location_on,

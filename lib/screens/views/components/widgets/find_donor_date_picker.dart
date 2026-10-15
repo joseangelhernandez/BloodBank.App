@@ -9,8 +9,10 @@ import '../../../../general/utils/responsive.dart';
 class FindDonorDatePicker extends StatefulWidget {
   // Avisa a la pantalla la fecha elegida.
   final ValueChanged<DateTime>? onChanged;
+  // Fecha ya elegida (ej. al editar); si es null se muestra "Choose Date".
+  final DateTime? initialValue;
 
-  const FindDonorDatePicker({super.key, this.onChanged});
+  const FindDonorDatePicker({super.key, this.onChanged, this.initialValue});
 
   @override
   State<FindDonorDatePicker> createState() => _FindDonorDatePickerState();
@@ -19,9 +21,18 @@ class FindDonorDatePicker extends StatefulWidget {
 class _FindDonorDatePickerState extends State<FindDonorDatePicker> {
   String? date;
 
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initialValue != null) date = _format(widget.initialValue!);
+  }
+
+  String _format(DateTime d) => '${d.day}-${d.month}-${d.year}';
+
   _pickDate(context) async {
     final pickedDate = await showDatePicker(
       context: context,
+      initialDate: widget.initialValue,
       firstDate: DateTime(2000),
       lastDate: DateTime(2050),
     );
@@ -29,7 +40,7 @@ class _FindDonorDatePickerState extends State<FindDonorDatePicker> {
     // Si el usuario cancela, pickedDate es null y no hacemos nada.
     if (pickedDate == null) return;
 
-    date = '${pickedDate.day}-${pickedDate.month}-${pickedDate.year}';
+    date = _format(pickedDate);
     setState(() {});
     widget.onChanged?.call(pickedDate);
   }

@@ -47,8 +47,6 @@ class _AllRequestScreenState extends State<AllRequestScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(titlee: "Blood Requests", actionTrue: true),
-      // CustomScrollView: el filtro va arriba y la lista es perezosa
-      // (solo se construyen las tarjetas que se ven en pantalla).
       body: Padding(
         padding: EdgeInsets.only(
           left: twentyPixelWidth(context),
@@ -62,30 +60,6 @@ class _AllRequestScreenState extends State<AllRequestScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   verticalSpace(twentyPixelHeight(context)),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Filter',
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 14,
-                          fontFamily: 'PoppinsBold',
-                          fontWeight: FontWeight.w700,
-                        ),
-                        textScaler: TextScaler.linear(
-                          ScaleSize.textScaleFactor(context),
-                        ),
-                      ),
-                      horizontalSpace(twentyPixelWidth(context) * .25),
-                      Image.asset(
-                        "assets/icons/filter.png",
-                        width: twelvePixelWidth(context) * 2,
-                      ),
-                    ],
-                  ),
-                  verticalSpace(twentyPixelHeight(context) * .5),
 
                   CustomBloodFilterBox(onChanged: _onFilterChanged),
                 ],

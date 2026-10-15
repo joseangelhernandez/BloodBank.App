@@ -28,7 +28,7 @@ class ProfileProvider extends ChangeNotifier {
     String? phone,
     String? gender,
     String? bloodGroup,
-    String? location,
+    required String location,
     String? photoUrl,
   }) async {
     errorMessage = null;
